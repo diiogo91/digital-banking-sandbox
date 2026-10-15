@@ -1,0 +1,2 @@
+CREATE TABLE accounts (id UUID PRIMARY KEY, holder_name VARCHAR(120) NOT NULL, account_number VARCHAR(32) NOT NULL UNIQUE, currency VARCHAR(3) NOT NULL, balance NUMERIC(19,2) NOT NULL CHECK(balance >= 0), version BIGINT NOT NULL DEFAULT 0);
+CREATE TABLE transfers (id UUID PRIMARY KEY, source_account_id UUID NOT NULL REFERENCES accounts(id), target_account_id UUID NOT NULL REFERENCES accounts(id), amount NUMERIC(19,2) NOT NULL CHECK(amount > 0), created_at TIMESTAMP WITH TIME ZONE NOT NULL, CONSTRAINT different_accounts CHECK(source_account_id <> target_account_id));
